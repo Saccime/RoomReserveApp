@@ -1,5 +1,6 @@
 package com.example.demouser.roomreserveapp;
 
+import android.content.Intent;
 import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ public class BuildingActivity extends AppCompatActivity {
 
         private ImageSwitcher imageSwitcher;
 
+        private FloorsActivity floorsActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,15 +36,27 @@ public class BuildingActivity extends AppCompatActivity {
         imageSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
             public View makeView() {
-                ImageView imageView = new ImageView(getApplicationContext());
+                final ImageView imageView = new ImageView(getApplicationContext());
                 imageView.setScaleType(ImageView.ScaleType.CENTER);
                 imageView.setLayoutParams(
                         new ImageSwitcher.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT));
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        switch (v.getId()) {
+                            case R.drawable.clapp:
+                                RoomOptions();
+                                break;
+                        }
+                    }
 
+                });
                 return imageView;
             }
+
         });
+
 
         Animation in = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.in);
         Animation out = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.out);
@@ -57,6 +72,8 @@ public class BuildingActivity extends AppCompatActivity {
                     i--;
                     imageSwitcher.setImageResource(bImages[i]);
                 }
+                Intent startTransition = new Intent(BuildingActivity.this, FloorsActivity.class);
+                startActivity(startTransition);
             }
         });
 
@@ -71,5 +88,12 @@ public class BuildingActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
+    public void RoomOptions() {
+        Intent startTransition = new Intent(BuildingActivity.this, FloorsActivity.class);
+        startActivity(startTransition);
+    }
+
 }
